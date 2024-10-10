@@ -1,19 +1,21 @@
+"use client"
+
 import Image from "next/image"
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import Input from "../components/input"
+import { useState } from "react"
+import Button from "../components/button"
+
 export default function Login() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value)
+  }
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -30,53 +32,40 @@ export default function Login() {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form action="#" method="POST" className="space-y-6">
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplate="email"
+              value={email}
+              onChange={onChangeEmail}
+              label="이메일"
+            />
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                이메일
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                required
+                autoComplate="password"
+                value={password}
+                onChange={onChangePassword}
+                label="비밀번호"
+              />
+              <div className="text-sm mt-1">
+                <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                  비밀번호를 잊으셨나요?
+                </a>
               </div>
             </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="text-sm font-medium leading-6 text-gray-900">
-                  비밀번호
-                </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    비밀번호를 잊으셨나요?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                로그인
-              </button>
-            </div>
+            <Button
+              type="submit"
+              value="로그인"
+              className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            />
           </form>
 
           <p className="mt-5 text-center text-sm text-gray-500">
@@ -88,17 +77,20 @@ export default function Login() {
           </p>
 
           <div className="mt-10">
-            <button
-              className="flex justify-center items-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              <Image
-                src="/google.svg"
-                width={20}
-                height={20}
-                alt="google"
-              />
-              구글로그인
-            </button>
+            <Button
+              value={
+                <>
+                  <Image
+                    src="/google.svg"
+                    width={20}
+                    height={20}
+                    alt="google"
+                  />
+                  구글로그인
+                </>
+              }
+              className="flex justify-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            />
           </div>
         </div>
       </div>
