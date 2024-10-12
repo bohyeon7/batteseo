@@ -2,18 +2,18 @@ import React from 'react';
 
 interface ButtonProps {
   type?: "submit" | "reset" | "button";
-  value: React.ReactNode;
+  children: React.ReactNode;
   className: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ type, value, className }) => {
+const Button: React.FC<ButtonProps> = ({ type, children, className }) => {
   return (
     <>
       <button
         type={type}
         className={className}
       >
-        {value}
+        {children}
       </button>
     </>
   );

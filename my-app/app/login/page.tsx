@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import Input from "../components/input"
+import Input from "../../components/input"
 import { useState } from "react"
-import Button from "../components/button"
+import Button from "../../components/button"
 
 export default function Login() {
   const [email, setEmail] = useState("")
@@ -61,11 +61,11 @@ export default function Login() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              value="로그인"
-              className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            />
+            <Button type="submit" className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <>
+                로그인
+              </>
+            </Button>
           </form>
 
           <p className="mt-5 text-center text-sm text-gray-500">
@@ -77,20 +77,17 @@ export default function Login() {
           </p>
 
           <div className="mt-10">
-            <Button
-              value={
-                <>
-                  <Image
-                    src="/google.svg"
-                    width={20}
-                    height={20}
-                    alt="google"
-                  />
-                  구글로그인
-                </>
-              }
-              className="flex justify-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            />
+            <Button className="flex justify-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <>
+                <Image
+                  src="/google.svg"
+                  width={20}
+                  height={20}
+                  alt="google"
+                />
+                구글로그인
+              </>
+            </Button>
           </div>
         </div>
       </div>
