@@ -35,22 +35,6 @@ export default function CreateAccount() {
     validateInput(setError, regex, value);
   }
 
-  // const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setEmail(value);
-  //   setEmailError(!emailRegex.test(email));
-  // }
-  // const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setPassword(value);
-  //   setPasswordError(!passwordRegex.test(password));
-  // }
-  // const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = e.target;
-  //   setNickname(value);
-  //   setNicknameError(!nicknameRegex.test(nickname));
-  // }
-
   useEffect(() => {
     if (email === "") setEmailError(false);
     if (password === "") setPasswordError(false);
@@ -65,7 +49,7 @@ export default function CreateAccount() {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+            src="https://tailwindui.com/plus/img/logos/mark.svg?color=lime&shade=600"
             className="mx-auto h-10 w-auto"
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -113,7 +97,7 @@ export default function CreateAccount() {
               errorMessage={PASSWORD_ERROR_MSG}
             />
 
-            <Button type="submit" className="w-full rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <Button type="submit" className="w-full rounded-md bg-lime-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">
               <>
                 회원가입
               </>
@@ -122,14 +106,14 @@ export default function CreateAccount() {
 
           <p className="mt-5 text-center text-sm text-gray-500">
             이미 계정이 있으신가요?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <a href="#" className="font-semibold leading-6 text-lime-600 hover:text-lime-500">
               로그인 하러하기
               <span className="px-1.5 text-lg">👉</span>
             </a>
           </p>
 
           <div className="mt-10">
-            <Button className="flex justify-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <Button className="flex justify-center gap-5 w-full rounded-md bg-gray-200 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600">
               <>
                 <Image
                   src="/google.svg"
