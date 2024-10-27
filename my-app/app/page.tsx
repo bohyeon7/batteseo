@@ -10,7 +10,7 @@ interface Product {
 }
 
 export default async function Home() {
-  let data = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + '/product/all', { cache: 'no-store' });
+  let data = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/product/all`, { cache: 'no-store' });
   let products = await data.json();
   let dataArray: Product[] = [];
 
@@ -20,7 +20,6 @@ export default async function Home() {
   } else {
     console.log(products);
   }
-
 
   return (
     <Wrapper>

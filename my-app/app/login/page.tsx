@@ -19,15 +19,15 @@ export default function Login() {
   useEffect(() => {
     const fetchWithToken = async (code: string) => {
       try {
-        const response = await fetch('http://localhost:8086/auth/kakao/token', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/kakao/token`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ code }),
         });
-        const data = await response.json();
-        return data.accessToken;
+        const responseJson = await response.json();
+        return responseJson.data.accessToken;
       } catch (error) {
         console.error('Error fetching token:', error);
         throw error;
@@ -55,8 +55,10 @@ export default function Login() {
       (async () => {
         try {
           const accessToken = await fetchWithToken(code);
-          await saveTokenToCookie(accessToken);
-          router.push('/');
+          if (accessToken) {
+            await saveTokenToCookie(accessToken);
+            router.push('/');
+          }
         } catch (error) {
           console.error('Error during login process:', error);
         }

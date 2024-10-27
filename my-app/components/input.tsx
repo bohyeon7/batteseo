@@ -7,7 +7,7 @@ interface InputProps {
   required: boolean;
   autoComplate?: string;
   placeholder?: string;
-  value: string;
+  value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   label?: string;
   error?: boolean;
