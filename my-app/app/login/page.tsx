@@ -4,6 +4,7 @@ import Image from "next/image"
 import Button from "../../components/button"
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { setAuthToken } from "@/utils/cookies";
 
 export default function Login() {
   const router = useRouter();
@@ -34,29 +35,13 @@ export default function Login() {
       }
     };
 
-    const saveTokenToCookie = async (accessToken: string) => {
-      try {
-        const response = await fetch('/api/set-token', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ accessToken }),
-        });
-        return response;
-      } catch (error) {
-        console.error('Error saving token:', error);
-        throw error;
-      }
-    };
-
     const code = new URL(window.location.href).searchParams.get("code");
     if (code) {
       (async () => {
         try {
           const accessToken = await fetchWithToken(code);
           if (accessToken) {
-            await saveTokenToCookie(accessToken);
+            await setAuthToken(accessToken);
             router.push('/');
           }
         } catch (error) {

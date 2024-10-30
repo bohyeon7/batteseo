@@ -4,6 +4,7 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
+import { fetchWithToken } from "@/utils/api";
 import { getAuthToken } from "@/utils/cookies";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -43,11 +44,10 @@ export default function Product() {
         count: count,
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
+      await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
         cache: 'no-store',
         body: JSON.stringify(requestBody),
