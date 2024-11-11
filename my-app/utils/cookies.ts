@@ -37,3 +37,11 @@ export const getAuthToken = () => {
   const cookieStore = cookies();
   return cookieStore.get('authToken')?.value || null;
 };
+
+/**
+ * 쿠키에서 토큰 삭제
+ */
+export const removeAuthToken = () => {
+  const cookieStore = cookies();
+  cookieStore.delete('authToken');
+}

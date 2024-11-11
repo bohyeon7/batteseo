@@ -44,7 +44,7 @@ export default function Product() {
         count: count,
       };
 
-      await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
+      const response = await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export default function Product() {
       });
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

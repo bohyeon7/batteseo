@@ -1,4 +1,3 @@
-// utils/api.ts
 import { getAuthToken, setAuthToken } from "./cookies";
 
 /**
@@ -8,7 +7,7 @@ import { getAuthToken, setAuthToken } from "./cookies";
  * @returns response
  */
 export async function fetchWithToken(url: string, options?: RequestInit) {
-  // 쿠키에서 토큰꺼내기
+  // 쿠키에서 얻은 토큰으로 api 요청
   const token = await getAuthToken();
 
   const response = await fetch(url, {
@@ -23,25 +22,28 @@ export async function fetchWithToken(url: string, options?: RequestInit) {
     const recreateResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/token/re-create`, {
       headers: {Authorization: `Bearer ${token}`},
     });
-    
+    const newTokenData = await recreateResponse.json();
+
     if (recreateResponse.ok) {
-      // 재발급 성공인 경우
-      const newTokenData = await recreateResponse.json();
+      // 재발급 성공인경우, 쿠키에 재발급토큰 저장 후 실패했던 api 재요청과 결과리턴
       const newToken = newTokenData.data;
-      // 쿠키에 재발급토큰 저장
       await setAuthToken(newToken);
-      // 실패했던 요청 재시도
+
       const retryResponse = await fetch(url, {
         ...options,
         headers: {...options?.headers, Authorization: `Bearer ${newToken}`},
       })
-      return retryResponse;
+
+      return retryResponse.json();
 
     } else {
       // Refresh Token 만료로 재발급 실패한 경우 로그아웃 처리
-      console.log("[nbh] RefreshToken Expired or unexpected error occred");
+      if (typeof window !== "undefined") {
+        window.location.href = '/logout';
+      }
+      return null;
     }
   }
 
-  return response;
+  return responseJson;
 }
