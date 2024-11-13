@@ -14,8 +14,8 @@ export default function CreateAccount() {
   const [passwordError, setPasswordError] = useState(false)
   const [nicknameError, setNicknameError] = useState(false)
   const EMAIL_ERROR_MSG = "정확하지 않은 이메일입니다"
-  const PASSWORD_ERROR_MSG = "비밀번호는 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 8자리 이상이여야 합니다"
-  const NICKNAME_ERROR_MSG = "닉네임은 한글이나 한글, 숫자 조합으로 최소 2자 이상이여야 합니다"
+  const PASSWORD_ERROR_MSG = "비밀번호는 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 8자리 이상이어야 합니다"
+  const NICKNAME_ERROR_MSG = "닉네임은 한글이나 한글, 숫자 조합으로 최소 2자 이상이어야 합니다"
 
   const validateInput = (
     setError: React.Dispatch<React.SetStateAction<boolean>>,
