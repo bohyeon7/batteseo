@@ -1,3 +1,4 @@
+// 상품 목록 페이지
 'use client'
 
 import Button from "@/components/button";
@@ -21,6 +22,7 @@ export default function Product() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
+  
   const [product, setProduct] = useState<Product>({ id: null, name: "", price: 0, detail: "" });
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
@@ -53,6 +55,8 @@ export default function Product() {
         body: JSON.stringify(requestBody),
       });
 
+      alert(response.message);
+      
     } catch (error) {
       console.error(error);
     }

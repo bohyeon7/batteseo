@@ -1,3 +1,4 @@
+// 메인 페이지
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
 
