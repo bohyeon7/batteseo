@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import Input from "../../components/input"
+import Input from "../../../components/input"
 import React, { useEffect, useState } from "react"
-import Button from "../../components/button"
+import Button from "../../../components/button"
 import { emailRegex, nicknameRegex, passwordRegex } from "@/utils/regexPatterns"
 
 export default function CreateAccount() {
