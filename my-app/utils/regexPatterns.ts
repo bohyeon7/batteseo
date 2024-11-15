@@ -1,3 +1,5 @@
+// 빈칸
+export const blankRegex = /\S+/;
 // 이메일
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // 비밀번호 - 영문, 숫자, 특수문자 중 2개 조합이며 최소 8자리

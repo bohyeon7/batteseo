@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image"
-import Button from "../../components/button"
+import Button from "@/components/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { setAuthToken } from "@/utils/cookies";

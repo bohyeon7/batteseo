@@ -7,7 +7,7 @@ import Input from "@/components/input";
 import Section from "@/components/section"
 import Wrapper from "@/components/wrapper"
 import { fetchWithToken } from "@/utils/api";
-import { nameRegex, phoneRegex } from "@/utils/regexPatterns";
+import { blankRegex, nameRegex, phoneRegex } from "@/utils/regexPatterns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -29,6 +29,7 @@ export default function Cart() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [carts, setCarts] = useState<Cart[]>([]);
+  const [deliveryFee, setDeliveryFee] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [member, setMember] = useState<Member>();
   const [name, setName] = useState('');
@@ -54,7 +55,7 @@ export default function Cart() {
     setError: React.Dispatch<React.SetStateAction<boolean>>,
     regex: RegExp,
   ) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setter(value);
     validateInput(setError, regex, value);
   }
@@ -67,8 +68,44 @@ export default function Cart() {
     setAddress(selectedAddress);
     setPopup(false); // 모달 닫기
   }
+  // 상세주소 받기
   const onChangeAddressDet = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddressDet(e.target.value);
+  }
+  // 주문하기
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    if (!blankRegex.test(address)) {
+      alert('주소검색을 진행해주세요');
+      return;
+    }
+
+    // 요청 데이터 정의
+    const requestBody = {
+      orderTryItems: carts.map((cart) => ({
+        productId: cart.productId,
+        count: cart.count,
+      })),
+      address: addressDet.trim() ? `${address} ${addressDet}` : address,
+      toName: name,
+      toPhone: phone,
+    };
+    
+    try {
+      const response = await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/order/try`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store',
+        body: JSON.stringify(requestBody),
+      });
+
+    } catch (error) {
+      console.error(error);
+      
+    }
   }
 
   useEffect(() => {
@@ -80,7 +117,8 @@ export default function Cart() {
         });
 
         if (response.code === 200) {
-          setCarts(response.data);
+          setCarts(response.data.carts);
+          setDeliveryFee(response.data.fixedDeliveryFee);
         }
         
       } catch (error) {
@@ -116,8 +154,8 @@ export default function Cart() {
   // 총가격 계산
   useEffect(() => {
     const calculatedTotal = carts.reduce((acc, cart) => acc + cart.price * cart.count, 0);
-    setTotalPrice(calculatedTotal);
-  }, [carts])
+    setTotalPrice(calculatedTotal + deliveryFee);
+  }, [carts, deliveryFee])
 
   if (loading) {
     return <div>Loading...</div>;
@@ -132,55 +170,62 @@ export default function Cart() {
             <li key={cart.id}>{cart.productName} {cart.price}원, {cart.count}개</li>
           ))}
         </ul>
+        <p>배송비 {deliveryFee}원</p>
         <b>총 {totalPrice}원</b>
       </Section>
 
       <Section>
         <b>주문하기</b>
-        <Input
-          name="name"
-          type="text"
-          required
-          placeholder={member?.name}
-          value={name}
-          onChange={e => onChangeInput(e, setName, setNameError, nameRegex)}
-          label="받는사람 이름"
-          error={nameError}
-          errorMessage={NAME_ERROR_MSG}
-        />
-        <Input
-          name="phone"
-          type="text"
-          required
-          placeholder={member?.phone || ''}
-          value={phone}
-          onChange={e => onChangeInput(e, setPhone, setPhoneError, phoneRegex)}
-          label="받는사람 휴대폰"
-          error={phoneError}
-          errorMessage={PHONE_ERROR_MSG}
-        />
-        <div className="mt-4">
-          <Button
-            type="button"
-            onClick={handleAddress}
-          >주소검색</Button>
+        <form onSubmit={handleSubmit}>
           <Input
-            name="address"
+            name="name"
             type="text"
             required
-            value={address}
-            label="기본주소"
-            readonly
+            placeholder={member?.name}
+            value={name}
+            onChange={e => onChangeInput(e, setName, setNameError, nameRegex)}
+            label="받는사람 이름"
+            error={nameError}
+            errorMessage={NAME_ERROR_MSG}
           />
           <Input
-            name="addressDet"
+            name="phone"
             type="text"
-            required={false}
-            value={addressDet}
-            onChange={e => onChangeAddressDet(e)}
-            label="상세주소"
+            required
+            placeholder={member?.phone || ''}
+            value={phone}
+            onChange={e => onChangeInput(e, setPhone, setPhoneError, phoneRegex)}
+            label="받는사람 휴대폰"
+            error={phoneError}
+            errorMessage={PHONE_ERROR_MSG}
           />
-        </div>
+          <div className="mt-4">
+            <Button
+              type="button"
+              onClick={handleAddress}
+            >주소검색</Button>
+            <Input
+              name="address"
+              type="text"
+              required
+              value={address}
+              label="기본주소"
+              readonly
+            />
+            <Input
+              name="addressDet"
+              type="text"
+              required={false}
+              value={addressDet}
+              onChange={e => onChangeAddressDet(e)}
+              label="상세주소"
+            />
+          </div>
+          <Button
+            type="submit"
+            className="mt-4"
+          >주문하기 ✅</Button>
+        </form>
       </Section>
 
       {popup && <DaumPost onSelect={handleAddressSelect} onClose={() => setPopup(false)} />}
