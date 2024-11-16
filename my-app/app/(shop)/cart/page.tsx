@@ -10,6 +10,7 @@ import { fetchWithToken } from "@/utils/api";
 import { blankRegex, nameRegex, phoneRegex } from "@/utils/regexPatterns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import * as PortOne from "@portone/browser-sdk/v2";
 
 // Entity type
 interface Cart {
@@ -23,6 +24,12 @@ interface Cart {
 interface Member {
   name: string;
   phone: string | null;
+}
+
+interface PaymentInfo {
+  orderId: number;
+  storeId: string;
+  channelKey: string;
 }
 
 export default function Cart() {
@@ -39,6 +46,11 @@ export default function Cart() {
   const [nameError, setNameError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [popup, setPopup] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>({
+    orderId: 0,
+    storeId: '',
+    channelKey: '',
+  });
   const NAME_ERROR_MSG = "이름은 한글 2자 이상이어야 합니다";
   const PHONE_ERROR_MSG = "휴대폰번호는 숫자로만 입력해주세요";
 
@@ -102,9 +114,57 @@ export default function Cart() {
         body: JSON.stringify(requestBody),
       });
 
+      if (response.code === 200) {
+        setPaymentInfo(response.data);
+        // handlePayment(); // 결제진행
+      }
+
     } catch (error) {
       console.error(error);
       
+    }
+  }
+
+  const handlePayment = async () => {
+    if (paymentInfo.orderId === null) return;
+
+    const response = await PortOne.requestPayment({
+      storeId: paymentInfo.storeId,
+      paymentId: `payment-${crypto.randomUUID()}`, // 결제 건을 구분하는 문자열 (중복결제방지)
+      orderName: "농산물 (들깨)",
+      totalAmount: totalPrice,
+      currency: "CURRENCY_KRW",
+      channelKey: paymentInfo.channelKey,
+      payMethod: "CARD",
+      // redirectUrl: "", // mobile 인 경우 필수
+    });
+
+    if (response === undefined) {
+      return alert('handle payment failed.');
+    }
+    if (response.code !== undefined) {
+      // 오류 발생
+      return alert(response.message);
+    }
+    
+    const notified = await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/complete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store',
+      body: JSON.stringify({
+        paymentId: response.paymentId,
+        orderId: paymentInfo.orderId,
+      }),
+    });
+
+    if (notified.code === 200) {
+      alert(notified.message);
+      router.push('/');
+
+    } else {
+      alert('payment failed.');
     }
   }
 
@@ -156,6 +216,11 @@ export default function Cart() {
     const calculatedTotal = carts.reduce((acc, cart) => acc + cart.price * cart.count, 0);
     setTotalPrice(calculatedTotal + deliveryFee);
   }, [carts, deliveryFee])
+
+  // 결제진행
+  useEffect(() => {
+    handlePayment();
+  }, [paymentInfo]);
 
   if (loading) {
     return <div>Loading...</div>;
