@@ -30,7 +30,7 @@ export default function CreateAccount() {
     setError: React.Dispatch<React.SetStateAction<boolean>>,
     regex: RegExp,
   ) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
     setter(value);
     validateInput(setError, regex, value);
   }

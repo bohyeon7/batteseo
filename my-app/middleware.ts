@@ -17,7 +17,5 @@ export function middleware(request: NextRequest) {
 
 // middleware 실행 필터링 (인증이 필요한 경로)
 export const config = {
-  matcher: [
-    '/'
-  ],
+  matcher: [],
 }

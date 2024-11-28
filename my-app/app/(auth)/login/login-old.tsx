@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import Input from "../../components/input"
+import Input from "@/components/input"
 import { useState } from "react"
-import Button from "../../components/button"
+import Button from "@/components/button"
 
 export default function Login() {
   const [email, setEmail] = useState("")

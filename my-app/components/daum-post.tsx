@@ -1,7 +1,7 @@
 import DaumPostcodeEmbed from "react-daum-postcode";
 
 export default function DaumPost({ onSelect, onClose }: { onSelect: (address: string) => void, onClose: () => void }) {
-  const onComplete = (data: any) => {
+  const onComplete = (data: { roadAddress: string; }) => {
     const roadAddress = data.roadAddress;
     onSelect(roadAddress); // 부모 컴포넌트로 주소 전달
   };
