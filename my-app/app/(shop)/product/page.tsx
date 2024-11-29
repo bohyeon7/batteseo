@@ -3,7 +3,7 @@ import Product from "./product";
 
 export default function ProductPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Fallback Loading...</div>}>
       <Product />
     </Suspense>
   )

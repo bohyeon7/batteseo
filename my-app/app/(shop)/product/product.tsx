@@ -16,6 +16,8 @@ interface Product {
   name: string;
   price: number;
   detail: string;
+  info: string;
+  thumbnail: string;
 }
 
 export default function Product() {
@@ -23,13 +25,18 @@ export default function Product() {
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   
-  const [product, setProduct] = useState<Product>({ id: null, name: "", price: 0, detail: "" });
+  const [product, setProduct] = useState<Product>(
+    { id: null, name: '', price: 0, detail: '', info: '', thumbnail: '' }
+  );
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const handleCountInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.valueAsNumber;
-    setCount(value);
+  const handleCountBtn = (change: number) => {
+    setCount(prevCount => {
+      if (prevCount + change < 1) return 1;
+      return prevCount + change;
+    });
   }
 
   const addCart = async () => {
@@ -82,7 +89,11 @@ export default function Product() {
     if (id) {
       fetchProduct();
     }
-  }, [id])
+  }, [id]);
+
+  useEffect(() => {
+    setTotalPrice(product.price * count);
+  }, [product, count]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -91,21 +102,53 @@ export default function Product() {
   return (
     <Wrapper>
       <Section>
-        <div>{product.id}</div>
-        <div>{product.name}</div>
-        <Input
-          id="count"
-          name="count"
-          type="number"
-          required
-          value={count}
-          onChange={handleCountInput}
-          label="수량"
-        />
-        <Button
-          onClick={addCart}
-        >장바구니에 추가</Button>
+        {/* 썸네일 */}
+        <div>
+          <img
+            src={product.thumbnail}
+            className="h-full w-full rounded-xl m-auto"
+          />
+        </div>
+
+        {/* 구매정보 */}
+        <div className="py-10">
+          <h3 className="text-3xl font-semibold">{product.name}</h3>
+
+          <h3 className="mt-4 text-xl font-semibold border border-gray-700 px-2 py-1 w-fit rounded-md">✅ 구매시 꼭 확인해주세요</h3>
+          <p className="mt-2 text-gray-500 text-xl">{product.info}</p>
+
+          <div className="mt-8 flex justify-between items-center">
+            <p className="text-xl font-semibold">수량</p>
+
+            <div className="flex items-center w-1/2">
+              <button onClick={() => handleCountBtn(-1)} type="button" className="bg-gray-700 hover:bg-gray-500 rounded-s-lg p-3 h-11">
+                  <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 2">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                  </svg>
+              </button>
+              <input type="text" className="bg-gray-700 text-center text-white text-md block w-full py-2.5" value={count} required />
+              <button onClick={() => handleCountBtn(1)} type="button" className="bg-gray-700 hover:bg-gray-500 rounded-e-lg p-3 h-11">
+                  <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                  </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-between items-center text-xl font-semibold">
+            <p className="">총 금액</p>
+            <p className="items-right">{totalPrice} 원</p>
+          </div>
+
+          <Button
+            type="button"
+            className="mt-20 text-white font-semibold text-2xl rounded-md bg-gray-700 hover:bg-gray-500 w-full py-1.5"
+            onClick={addCart}
+          >장바구니 넣기</Button>
+        </div>
       </Section>
+
+      <Section>test</Section>
     </Wrapper>
   )
 }

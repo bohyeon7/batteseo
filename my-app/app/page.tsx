@@ -1,6 +1,12 @@
+'use client'
+
 // 메인 페이지
+import Button from "@/components/button";
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 // Entity type
 interface Product {
@@ -8,23 +14,36 @@ interface Product {
   name: string;
   price: number;
   detail: string;
+  info: string;
+  thumbnail: string;
 }
 
-export default async function Home() {
-  let data = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/product/all`, { cache: 'no-store' });
-  let products = await data.json();
-  let dataArray: Product[] = [];
+export default function Home() {
+  const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
 
-  // status OK 인 경우에만 data 출력
-  if (products.status === process.env.NEXT_PUBLIC_API_RESPONSE_OK) {
-    dataArray = products.data;
-  } else {
-    console.log(products);
+  const handleDetailBtn = (id: bigint) => () => {
+    router.push(`/product?id=${id}`);
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/product/all`, { cache: 'no-store' });
+      const products = await response.json();
+
+      if (products.status === process.env.NEXT_PUBLIC_API_RESPONSE_OK) {
+        setProducts(products.data);
+      } else {
+        console.log(products);
+      }
+    };
+
+    fetchData();
+  }, [])
 
   return (
     <Wrapper>
-      <div className="bg-gray-900 py-24 sm:py-32">
+      <div className="bg-gray-900 py-24 sm:py-32 text-center">
         <Section className="mt-0">
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">봉화밭에서</h2>
           <p className="mt-6 whitespace-pre-line text-gray-300">
@@ -45,29 +64,30 @@ export default async function Home() {
       </Section>
       <Section>
         <ul role="list">
-          {dataArray.map((product) => (
-            <li key={product.id} className="flex pb-20">
-              <div className="w-1/2 flex-shrink-0 overflow-hidden rounded-xl border border-gray-200">
+          {products.map((product) => (
+            <li key={product.id} className="mb-40">
+              <div className="overflow-hidden">
                 <img
-                  alt=''
-                  src='https://tailwindui.com/plus/img/ecommerce-images/shopping-cart-page-04-product-01.jpg'
-                  className="h-full w-full object-cover object-center"
+                  src={product.thumbnail}
+                  className="object-cover h-60 w-full max-w-screen-sm rounded-xl m-auto"
                 />
               </div>
 
-              <div className="ml-4 py-10 flex flex-1 flex-col">
+              <div className="py-10 flex flex-1 flex-col text-center">
                 <div>
-                  <div className="text-2xl flex justify-between font-medium text-gray-900">
-                    <h3>{product.name}</h3>
-                    <p className="ml-4">{product.price}</p>
+                  <div className="text-gray-900">
+                    <h3 className="text-2xl font-semibold">{product.name}</h3>
+                    <p className="text-xl font-medium">한 말 기준 {product.price}원</p>
                   </div>
-                  <p className="mt-8 text-gray-500">{product.detail}</p>
+                  <p className="mt-8 text-gray-500 text-xl">{product.detail}</p>
                 </div>
 
-                <div className="flex flex-1">
-                  <button type="button" className="font-medium text-lime-600 hover:text-lime-500">
-                    자세히보기
-                  </button>
+                <div className="mt-8">
+                  <Button
+                    type="button"
+                    className="text-white font-semibold m-auto text-2xl rounded-md bg-gray-700 hover:bg-gray-500 w-full max-w-screen-sm py-1.5 text-white shadow-inner shadow-black/10"
+                    onClick={handleDetailBtn(product.id)}
+                  >자세히보기 👉</Button>
                 </div>
               </div>
             </li>

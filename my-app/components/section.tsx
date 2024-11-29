@@ -7,7 +7,7 @@ interface Props {
 
 const Section: React.FC<Props> = ({ children, className }) => {
   return (
-    <div className={`${className} border-2 mt-32 mx-auto max-w-screen-lg w-full`}>
+    <div className={`${className} mt-32 mx-auto max-w-screen-md w-full`}>
       {children}
     </div>
   );
