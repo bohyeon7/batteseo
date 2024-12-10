@@ -7,8 +7,8 @@ export default function DaumPost({ onSelect, onClose }: { onSelect: (address: st
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}> {/* 모달 외부 클릭 시 닫힘 */}
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50" onClick={onClose}> {/* 모달 외부 클릭 시 닫힘 */}
+      <div className="" onClick={(e) => e.stopPropagation()}>
         <DaumPostcodeEmbed onComplete={onComplete} className="fixed top-0 left-0 right-0" />
         <button onClick={onClose}>닫기</button> {/* 모달 닫기 버튼 */}
       </div>

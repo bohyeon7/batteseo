@@ -2,7 +2,7 @@
 'use client'
 
 import Button from "@/components/button";
-import Input from "@/components/input";
+import PopupCart from "@/components/popup-cart";
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
 import { fetchWithToken } from "@/utils/api";
@@ -31,6 +31,7 @@ export default function Product() {
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // 팝업 표시 여부
 
   const handleCountBtn = (change: number) => {
     setCount(prevCount => {
@@ -44,6 +45,7 @@ export default function Product() {
       const token = await getAuthToken();
       if (!token) {
         // 로그인페이지로 리다이렉트
+        alert('로그인이 필요합니다');
         router.push('/');
       }
 
@@ -53,7 +55,7 @@ export default function Product() {
         count: count,
       };
 
-      const response = await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
+      await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +64,8 @@ export default function Product() {
         body: JSON.stringify(requestBody),
       });
 
-      alert(response.message);
+      // 성공 팝업 표시
+      setIsPopupVisible(true);
       
     } catch (error) {
       console.error(error);
@@ -123,13 +126,13 @@ export default function Product() {
             <div className="flex items-center w-1/2">
               <button onClick={() => handleCountBtn(-1)} type="button" className="bg-gray-700 hover:bg-gray-500 rounded-s-lg p-3 h-11">
                   <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 2">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h16"/>
                   </svg>
               </button>
-              <input type="text" className="bg-gray-700 text-center text-white text-md block w-full py-2.5" value={count} required />
+              <input type="text" className="bg-gray-700 text-center text-white text-md block w-full py-2.5" value={count} readOnly required />
               <button onClick={() => handleCountBtn(1)} type="button" className="bg-gray-700 hover:bg-gray-500 rounded-e-lg p-3 h-11">
                   <svg className="w-3 h-3 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 1v16M1 9h16"/>
                   </svg>
               </button>
             </div>
@@ -149,6 +152,9 @@ export default function Product() {
       </Section>
 
       <Section>test</Section>
+
+      {/* 팝업 */}
+      {isPopupVisible && <PopupCart />}
     </Wrapper>
   )
 }

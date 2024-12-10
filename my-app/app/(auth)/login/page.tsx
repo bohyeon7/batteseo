@@ -5,6 +5,7 @@ import Button from "@/components/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { setAuthToken } from "@/utils/cookies";
+import Wrapper from "@/components/wrapper";
 
 export default function Login() {
   const router = useRouter();
@@ -53,25 +54,26 @@ export default function Login() {
   }, [router]);
 
   return (
-    <div className="mt-32">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindui.com/plus/img/logos/mark.svg?color=lime&shade=600"
-          className="mx-auto h-10 w-auto"
-        />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          로그인 및 회원가입
-        </h2>
-      </div>
+    <Wrapper>
+      <div className="mt-32">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <p className="text-center text-4xl">🌱</p>
+          <h2 className="text-center text-2xl font-semibold text-gray-900">
+            봉화밭에서 로그인
+          </h2>
+          <p className="mt-4 text-md text-center text-gray-600">
+            카카오 로그인으로 회원정보를 받고있습니다<br />
+            아래 버튼으로 자동 회원가입이 됩니다<br />
+          </p>
+          
+        </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="mt-10">
-          <Button onClick={handleLogin}>
+        <div className="mt-20 mx-auto text-center">
+          <Button onClick={handleLogin} className="w-sm mx-auto">
             <Image src="/kakao_login_large_wide.png" alt="kakao" priority width={400} height={200} />
           </Button>
         </div>
       </div>
-    </div>
+    </Wrapper>
   )
 }
