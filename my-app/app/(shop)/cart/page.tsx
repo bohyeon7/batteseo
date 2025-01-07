@@ -10,7 +10,6 @@ import { fetchWithToken } from "@/utils/api";
 import { blankRegex, nameRegex, phoneRegex } from "@/utils/regexPatterns";
 import { useEffect, useState } from "react";
 import PopupOrder from "@/components/popup-order";
-import { useRouter } from "next/navigation";
 
 // Entity type
 interface Cart {
@@ -33,7 +32,6 @@ interface Member {
 // }
 
 export default function Cart() {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [carts, setCarts] = useState<Cart[]>([]);
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -62,7 +60,7 @@ export default function Cart() {
     };
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/del`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/del`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

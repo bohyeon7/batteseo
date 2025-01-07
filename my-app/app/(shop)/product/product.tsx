@@ -46,7 +46,7 @@ export default function Product() {
       if (!token) {
         // 로그인페이지로 리다이렉트
         alert('로그인이 필요합니다');
-        router.push('/');
+        router.push('/login');
       }
 
       // 요청 데이터 정의

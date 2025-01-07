@@ -34,7 +34,7 @@ export default function Home() {
     if (!token) {
       // 로그인페이지로 리다이렉트
       alert('로그인이 필요합니다');
-      router.push('/');
+      router.push('/login');
 
     } else {
       // 장바구니 데이터 있는 경우에만 리다이렉트
