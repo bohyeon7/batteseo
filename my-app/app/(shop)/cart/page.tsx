@@ -216,7 +216,7 @@ export default function Cart() {
 
   return (
     <Wrapper>
-      <Section className="mt-0">
+      <Section className="!mt-0">
         <div>
           <h1 className="text-2xl font-semibold mb-4">🌱 주문하실 상품</h1>
           <ul role="list">

@@ -106,7 +106,7 @@ export default function Product() {
 
   return (
     <Wrapper>
-      <Section className="mt-0">
+      <Section className="!mt-0">
         {/* 썸네일 */}
         <div>
           <img
@@ -120,7 +120,7 @@ export default function Product() {
           <h3 className="text-3xl font-semibold">{product.name}</h3>
 
           <h3 className="mt-4 text-xl font-semibold border border-gray-700 px-2 py-1 w-fit rounded-md"><span className="text-2xl">💁‍♀️</span> 구매시 꼭 확인해주세요</h3>
-          <p className="mt-4 text-gray-900 text-lg"><DisplayText text={product.info} className="mt-2" /></p>
+          <div className="mt-4 text-gray-900 text-lg"><DisplayText text={product.info} className="mt-2" /></div>
 
           <div className="mt-8 flex justify-between items-center">
             <p className="text-xl font-semibold">수량</p>

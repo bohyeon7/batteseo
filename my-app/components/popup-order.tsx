@@ -9,8 +9,8 @@ export default function PopupOrder() {
       <div className="max-w-screen-sm w-full bg-white p-6 rounded-md shadow-lg text-center">
         <p className="font-semibold text-xl">주문이 완료됐습니다 👏👏👏</p>
         <p className="mt-4 text-lg">
-          페이지 최하단에 계좌 정보가 있습니다 <br />
-          입금이 확인되면 택배 보내드립니다 <br />
+          카카오톡으로 계좌정보 및<br />
+          주문정보를 보내드렸습니다<br />
           주문해주셔서 감사합니다 😊
         </p>
         <div className="mt-4">
