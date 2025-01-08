@@ -2,6 +2,7 @@
 
 // 메인 페이지
 import Button from "@/components/button";
+import DisplayText from "@/components/display-text";
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
 import { fetchWithToken } from "@/utils/api";
@@ -82,7 +83,7 @@ export default function Home() {
       </Section>
     </div>
     <Wrapper>
-      <Section>
+      <Section className="mt-8">
         <p className="text-center leading-8 text-gray-600 text-lg break-keep">
           안녕하세요!<br />
           올해부터 들깨 판매를 웹사이트로 하게되었습니다<br />
@@ -107,9 +108,11 @@ export default function Home() {
                 <div>
                   <div className="text-gray-900">
                     <h3 className="text-xl font-semibold">{product.name}</h3>
-                    <p className="mt-4 text-lg font-medium">한 말 (5kg) {product.price}원</p>
+                    <p className="mt-4 text-lg font-medium">한 말 (5kg) {product.price.toLocaleString('ko-KR')} 원</p>
                   </div>
-                  <p className="mt-8 text-gray-500 text-lg">{product.detail}</p>
+                  <div className="mt-8 text-gray-500 text-lg">
+                    <DisplayText text={product.detail} />
+                  </div>
                 </div>
 
                 <div className="mt-8">

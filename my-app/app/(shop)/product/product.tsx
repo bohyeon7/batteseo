@@ -2,6 +2,7 @@
 'use client'
 
 import Button from "@/components/button";
+import DisplayText from "@/components/display-text";
 import PopupCart from "@/components/popup-cart";
 import Section from "@/components/section";
 import Wrapper from "@/components/wrapper";
@@ -15,6 +16,7 @@ interface Product {
   id: bigint | null;
   name: string;
   price: number;
+  priceInfo: string;
   detail: string;
   info: string;
   thumbnail: string;
@@ -26,7 +28,7 @@ export default function Product() {
   const id = searchParams.get('id');
   
   const [product, setProduct] = useState<Product>(
-    { id: null, name: '', price: 0, detail: '', info: '', thumbnail: '' }
+    { id: null, name: '', price: 0, priceInfo: '', detail: '', info: '', thumbnail: '' }
   );
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(1);
@@ -104,7 +106,7 @@ export default function Product() {
 
   return (
     <Wrapper>
-      <Section>
+      <Section className="mt-0">
         {/* 썸네일 */}
         <div>
           <img
@@ -117,8 +119,8 @@ export default function Product() {
         <div className="py-10">
           <h3 className="text-3xl font-semibold">{product.name}</h3>
 
-          <h3 className="mt-4 text-xl font-semibold border border-gray-700 px-2 py-1 w-fit rounded-md">✅ 구매시 꼭 확인해주세요</h3>
-          <p className="mt-2 text-gray-500 text-xl">{product.info}</p>
+          <h3 className="mt-4 text-xl font-semibold border border-gray-700 px-2 py-1 w-fit rounded-md"><span className="text-2xl">💁‍♀️</span> 구매시 꼭 확인해주세요</h3>
+          <p className="mt-4 text-gray-900 text-lg"><DisplayText text={product.info} className="mt-2" /></p>
 
           <div className="mt-8 flex justify-between items-center">
             <p className="text-xl font-semibold">수량</p>
@@ -138,10 +140,14 @@ export default function Product() {
             </div>
           </div>
 
-          <div className="mt-8 flex justify-between items-center text-xl font-semibold">
+          <div className="text-gray-600 text-right mt-2"><DisplayText text='단위는 한 말(5kg)입니다' /></div>
+
+          <div className="mt-10 flex justify-between items-center text-xl font-semibold">
             <p className="">총 금액</p>
-            <p className="items-right">{totalPrice} 원</p>
+            <p className="items-right">{totalPrice.toLocaleString('ko-KR')} 원</p>
           </div>
+
+          <div className="text-gray-600 text-right mt-1"><DisplayText text={product.priceInfo} /></div>
 
           <Button
             type="button"
@@ -150,8 +156,6 @@ export default function Product() {
           >장바구니 넣기</Button>
         </div>
       </Section>
-
-      <Section>test</Section>
 
       {/* 팝업 */}
       {isPopupVisible && <PopupCart />}

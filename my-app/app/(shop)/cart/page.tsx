@@ -216,7 +216,7 @@ export default function Cart() {
 
   return (
     <Wrapper>
-      <Section>
+      <Section className="mt-0">
         <div>
           <h1 className="text-2xl font-semibold mb-4">🌱 주문하실 상품</h1>
           <ul role="list">
@@ -224,7 +224,7 @@ export default function Cart() {
               <li key={cart.id} className="text-xl mb-4 flex">
                 <p className="font-semibold w-28">{cart.productName}</p>
                 <p>{cart.count} 말</p>
-                <p className="ml-4">{cart.price * cart.count} 원</p>
+                <p className="ml-4">{(cart.price * cart.count).toLocaleString('ko-KR')} 원</p>
                 <div className="ml-2 flex item-center">
                   <Button type="button" onClick={handleDelete(cart.id)}>
                     <div className="text-gray-700 w-5">
@@ -239,12 +239,12 @@ export default function Cart() {
           </ul>
           <div className="flex text-xl">
             <p className="font-semibold mb-4 w-28">배송비</p>
-            <p>{deliveryFee} 원</p>
+            <p>{deliveryFee.toLocaleString('ko-KR')} 원</p>
           </div>
 
           <div className="flex text-xl">
             <p className="text-xl font-semibold w-28">총 금액</p>
-            <p>{totalPrice} 원</p>
+            <p>{totalPrice.toLocaleString('ko-KR')} 원</p>
           </div>
         </div>
 
