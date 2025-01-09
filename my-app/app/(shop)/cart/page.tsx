@@ -277,6 +277,7 @@ export default function Cart() {
                 error={phoneError}
                 errorMessage={PHONE_ERROR_MSG}
               />
+              <div className="text-gray-400">해당 휴대폰번호로 주문정보가 발송됩니다</div>
             </div>
 
             <div>
