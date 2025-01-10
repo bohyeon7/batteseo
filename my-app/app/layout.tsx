@@ -22,7 +22,21 @@ export const metadata: Metadata = {
     other: {
       "naver-site-verification" : "1fce1f4d7e78df2357b056f4399500e74df4bc0f"
     }
-  }
+  },
+  openGraph: {
+    type: 'website',
+    url: 'https://batteseo.nueundollab.com/',
+    title: '봉화밭에서 🌱',
+    description: '봉화밭에서 직접 생산한 들깨',
+    images: [
+      {
+        url: 'https://batteseo.nueundollab.com/fall-3.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'batteseo',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
