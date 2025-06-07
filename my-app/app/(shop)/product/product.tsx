@@ -43,36 +43,39 @@ export default function Product() {
   }
 
   const addCart = async () => {
-    alert('준비중입니다');
-    // try {
-    //   const token = await getAuthToken();
-    //   if (!token) {
-    //     // 로그인페이지로 리다이렉트
-    //     alert('로그인이 필요합니다');
-    //     router.push('/login');
-    //   }
+    try {
+      const token = await getAuthToken();
+      if (!token) {
+        // 로그인페이지로 리다이렉트
+        alert('로그인이 필요합니다');
+        router.push('/login');
+      }
 
-    //   // 요청 데이터 정의
-    //   const requestBody = {
-    //     productId: id,
-    //     count: count,
-    //   };
+      // 요청 데이터 정의
+      const requestBody = {
+        productId: id,
+        count: count,
+      };
 
-    //   await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     cache: 'no-store',
-    //     body: JSON.stringify(requestBody),
-    //   });
+      await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store',
+        body: JSON.stringify(requestBody),
+      });
 
-    //   // 성공 팝업 표시
-    //   setIsPopupVisible(true);
+      // 성공 팝업 표시
+      setIsPopupVisible(true);
       
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const addCartPreparing = () => {
+    alert('준비중입니다');
   }
 
   useEffect(() => {
@@ -153,7 +156,7 @@ export default function Product() {
           <Button
             type="button"
             className="mt-20 text-white font-semibold text-2xl rounded-md bg-gray-700 hover:bg-gray-500 w-full py-1.5"
-            onClick={addCart}
+            onClick={addCartPreparing}
           >장바구니 넣기</Button>
         </div>
       </Section>
