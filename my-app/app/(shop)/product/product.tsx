@@ -43,35 +43,36 @@ export default function Product() {
   }
 
   const addCart = async () => {
-    try {
-      const token = await getAuthToken();
-      if (!token) {
-        // 로그인페이지로 리다이렉트
-        alert('로그인이 필요합니다');
-        router.push('/login');
-      }
+    alert('준비중입니다');
+    // try {
+    //   const token = await getAuthToken();
+    //   if (!token) {
+    //     // 로그인페이지로 리다이렉트
+    //     alert('로그인이 필요합니다');
+    //     router.push('/login');
+    //   }
 
-      // 요청 데이터 정의
-      const requestBody = {
-        productId: id,
-        count: count,
-      };
+    //   // 요청 데이터 정의
+    //   const requestBody = {
+    //     productId: id,
+    //     count: count,
+    //   };
 
-      await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-store',
-        body: JSON.stringify(requestBody),
-      });
+    //   await fetchWithToken(`${process.env.NEXT_PUBLIC_API_BASE_URL}/cart/add`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     cache: 'no-store',
+    //     body: JSON.stringify(requestBody),
+    //   });
 
-      // 성공 팝업 표시
-      setIsPopupVisible(true);
+    //   // 성공 팝업 표시
+    //   setIsPopupVisible(true);
       
-    } catch (error) {
-      console.error(error);
-    }
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   useEffect(() => {
